@@ -2,7 +2,6 @@ package webpack
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -26,13 +25,15 @@ func NewAssetsMapper(buildPath string) (AssetsMapper, error) {
 		return nil, err
 	}
 
-	var manifest map[string]string
+	// var manifest map[string]string
+	var manifest map[string]map[string]string
 
 	if err = json.Unmarshal(content, &manifest); err != nil {
 		return nil, err
 	}
 
 	return func(file string) string {
-		return fmt.Sprintf("/%s/%s", buildPath, manifest[file])
+		// return fmt.Sprintf("/%s/%s", buildPath, manifest[][file])
+		return manifest["files"][file]
 	}, nil
 }
